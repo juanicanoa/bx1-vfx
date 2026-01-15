@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bx1 Vfx - Admin Panel</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --primary-color: #3b82f6;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --warning-color: #f59e0b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* LOGIN SCREEN */
+.login-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.login-container {
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 20px;
+  border: 2px solid var(--primary-color);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.login-logo {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.login-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.login-btn:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+}
+
+.cancel-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 2px solid var(--text-secondary);
+  color: var(--text-primary);
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  border-color: var(--text-primary);
+}
+
+.login-error {
+  color: var(--danger-color);
+  margin-top: 15px;
+  display: none;
+  font-size: 0.9rem;
+}
+
+/* HEADER */
+.admin-header {
+  background: var(--bg-secondary);
+  padding: 20px;
+  border-bottom: 2px solid var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header h1 {
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-header h1 i {
+  color: var(--primary-color);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-email {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.logout-btn {
+  background: var(--danger-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+.nav-btn {
+  color: var(--text-primary);
+  text-decoration: none;
+  margin-left: 20px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: rgba(59, 130, 246, 0.1);
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+/* CONTAINER */
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+}
+
+/* SIDEBAR */
+.admin-sidebar {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 25px;
+  height: fit-content;
+}
+
+.admin-sidebar h3 {
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-menu {
+  list-style: none;
+}
+
+.sidebar-menu li {
+  margin-bottom: 10px;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--text-primary);
+}
+
+.sidebar-menu a i {
+  width: 20px;
+  text-align: center;
+}
+
+.stats-box {
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid var(--success-color);
+}
+
+.stats-box h4 {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.stats-box p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--success-color);
+}
+
+/* MAIN CONTENT */
+.admin-main {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 30px;
+  min-height: 600px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-title h2 {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background: var(--success-color);
+  color: white;
+}
+
+.btn-success:hover {
+  background: #0da271;
+}
+
+.btn-danger {
+  background: var(--danger-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* UPLOAD AREA */
+.upload-area {
+  border: 3px dashed rgba(59, 130, 246, 0.3);
+  border-radius: 12px;
+  padding: 60px 30px;
+  text-align: center;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.upload-area:hover {
+  border-color: var(--primary-color);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.upload-area i {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.upload-area h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.upload-area p {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+#fileInput {
+  display: none;
+}
+
+.file-info {
+  background: rgba(59, 130, 246, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  display: none;
+}
+
+/* FORMULARIO */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.checkbox-group input {
+  width: auto;
+}
+
+/* PREVIEW */
+.preview-container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 30px;
+}
+
+.preview-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.preview-images {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.image-preview {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: var(--danger-color);
+  color: white;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* PORTFOLIO LIST */
+.portfolio-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.portfolio-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.portfolio-item:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-5px);
+}
+
+.portfolio-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.portfolio-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover .portfolio-image img {
+  transform: scale(1.05);
+}
+
+.portfolio-content {
+  padding: 20px;
+}
+
+.portfolio-content h4 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.portfolio-content p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.portfolio-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.tag {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary-color);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.portfolio-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.action-btn.edit {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary-color);
+}
+
+.action-btn.edit:hover {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.action-btn.delete {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger-color);
+}
+
+.action-btn.delete:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* ALERTAS */
+.alert {
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 4px solid var(--success-color);
+  color: var(--success-color);
+}
+
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid var(--danger-color);
+  color: var(--danger-color);
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: var(--text-primary);
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .admin-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .portfolio-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .user-info {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+</style>
+</head>
+
+<body>
+<!-- PANTALLA DE LOGIN -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-container">
+    <div class="login-logo">
+      <i class="fas fa-user-shield"></i>
+    </div>
+    <h2 class="login-title">Panel de Administración</h2>
+    <p class="login-subtitle">Bx1 Vfx - Ingresa tus credenciales</p>
+    
+    <input type="email" id="loginEmail" class="login-input" placeholder="Email" autocomplete="username">
+    <input type="password" id="loginPassword" class="login-input" placeholder="Contraseña" autocomplete="current-password">
+    
+    <button class="login-btn" onclick="login()">
+      <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+    </button>
+    
+    <button class="cancel-btn" onclick="window.location.href='works.html'">
+      <i class="fas fa-arrow-left"></i> Volver al Portfolio
+    </button>
+    
+    <div class="login-error" id="loginError">
+      <i class="fas fa-exclamation-circle"></i> <span id="errorMessage">Credenciales incorrectas</span>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL PRINCIPAL (OCULTO INICIALMENTE) -->
+<div id="adminPanel" style="display: none;">
+  <header class="admin-header">
+    <h1><i class="fas fa-user-shield"></i> Panel de Administración Bx1 Vfx</h1>
+    <div class="user-info">
+      <span class="user-email" id="userEmail"></span>
+      <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Salir
+      </button>
+      <a href="index.html" target="_blank" class="nav-btn">
+        <i class="fas fa-eye"></i> Ver Sitio
+      </a>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <h3><i class="fas fa-bars"></i> Menú</h3>
+      <ul class="sidebar-menu">
+        <li><a href="#subir" class="active" onclick="showSection('subir')"><i class="fas fa-upload"></i> Subir Portada</a></li>
+        <li><a href="#gestionar" onclick="showSection('gestionar')"><i class="fas fa-images"></i> Gestionar Portadas</a></li>
+        <li><a href="#config" onclick="showSection('config')"><i class="fas fa-cog"></i> Configuración</a></li>
+      </ul>
+      
+      <div class="stats-box">
+        <h4>Portadas Subidas</h4>
+        <p id="totalPortadas">0</p>
+      </div>
+      
+      <div style="margin-top: 20px; padding: 15px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 4px solid var(--warning-color);">
+        <h4 style="color: var(--warning-color); font-size: 0.9rem; margin-bottom: 10px;">ℹ️ Información</h4>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">
+          Las imágenes se guardan en la nube. No se requiere configuración adicional.
+        </p>
+      </div>
+    </aside>
+    
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      
+      <!-- SECCIÓN SUBIR PORTADA -->
+      <section id="subir-section" class="admin-section">
+        <div class="section-title">
+          <h2><i class="fas fa-upload"></i> Subir Nueva Portada</h2>
+          <button class="btn btn-primary" onclick="actualizarListaPortadas()">
+            <i class="fas fa-sync-alt"></i> Actualizar Lista
+          </button>
+        </div>
+        
+        <!-- ÁREA DE SUBIDA -->
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <h3>Arrastra y suelta tus imágenes aquí</h3>
+          <p>o haz clic para seleccionar archivos</p>
+          <p style="font-size: 0.9rem; opacity: 0.7;">Formatos soportados: JPG, PNG, GIF (Máx. 5MB)</p>
+          <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFiles(event)">
+        </div>
+        
+        <!-- INFO DE ARCHIVOS -->
+        <div class="file-info" id="fileInfo">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-info-circle" style="color: var(--primary-color);"></i>
+            <span id="fileCount">0 archivos seleccionados</span>
+          </div>
+        </div>
+        
+        <!-- FORMULARIO -->
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="projectName"><i class="fas fa-heading"></i> Nombre del Proyecto *</label>
+            <input type="text" id="projectName" placeholder="Ej: Álbum 'Neon Dreams'">
+          </div>
+          
+          <div class="form-group">
+            <label for="projectCategory"><i class="fas fa-tag"></i> Categoría *</label>
+            <select id="projectCategory">
+              <option value="album">Álbum Completo</option>
+              <option value="single">Single</option>
+              <option value="ep">EP</option>
+              <option value="banner">Banner</option>
+              <option value="diseño">Diseño Personalizado</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="projectDescription"><i class="fas fa-align-left"></i> Descripción *</label>
+            <textarea id="projectDescription" placeholder="Describe el proyecto..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="projectTags"><i class="fas fa-hashtag"></i> Etiquetas (separadas por coma)</label>
+            <input type="text" id="projectTags" placeholder="Ej: Synthwave, Futurista, 3D">
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-images"></i> Tipo de Portada</label>
+            <div class="checkbox-group">
+              <input type="checkbox" id="hasBackCover" onchange="toggleBackCover()">
+              <label for="hasBackCover">Incluye contratapa (2 imágenes)</label>
+            </div>
+          </div>
+          
+          <div class="form-group" id="backCoverNameGroup" style="display: none;">
+            <label for="backCoverName"><i class="fas fa-image"></i> Nombre para contratapa</label>
+            <input type="text" id="backCoverName" placeholder="Ej: Contratapa Álbum 'Neon Dreams'">
+          </div>
+        </div>
+        
+        <!-- VISTA PREVIA -->
+        <div class="preview-container">
+          <div class="preview-title">
+            <i class="fas fa-eye"></i>
+            <h3>Vista Previa</h3>
+          </div>
+          <div class="preview-images" id="previewImages">
+            <!-- Las imágenes se mostrarán aquí -->
+          </div>
+        </div>
+        
+        <!-- BOTÓN GUARDAR -->
+        <div style="text-align: center; margin-top: 30px;">
+          <button class="btn btn-success" style="padding: 15px 40px; font-size: 1.1rem;" onclick="guardarPortada()">
+            <i class="fas fa-save"></i> Guardar Portada
+          </button>
+        </div>
+      </section>
+      
+      <!-- SECCIÓN GESTIONAR PORTADAS -->
+      <section id="gestionar-section" class="admin-section" style="display: none;">
+        <div class="section-title">
+          <h2><i class="fas fa-images"></i> Gestionar Portadas</h2>
+          <button class="btn btn-primary" onclick="actualizarListaPortadas()">
+            <i class="fas fa-sync-alt"></i> Actualizar
+          </button>
+        </div>
+        
+        <div id="portfolioList" class="portfolio-list">
+          <!-- Las portadas se cargarán aquí dinámicamente -->
+        </div>
+      </section>
+      
+      <!-- SECCIÓN CONFIGURACIÓN -->
+      <section id="config-section" class="admin-section" style="display: none;">
+        <div class="section-title">
+          <h2><i class="fas fa-cog"></i> Configuración</h2>
+        </div>
+        
+        <div style="max-width: 600px; margin: 0 auto;">
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> Información de Cuenta</label>
+            <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 8px;">
+              <p style="margin: 0 0 10px 0;"><strong>Email:</strong> <span id="configEmail"></span></p>
+              <p style="margin: 0;"><strong>Estado:</strong> <span style="color: var(--success-color);">Administrador</span></p>
+            </div>
+          </div>
+          
+          <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <button class="btn btn-danger" onclick="confirmarLimpiarTodo()">
+              <i class="fas fa-trash-alt"></i> Eliminar Todas las Portadas
+            </button>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px;">
+              ⚠️ Esta acción eliminará todas las portadas de la base de datos. No se puede deshacer.
+            </p>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+</div>
+
+<!-- SUPABASE CONFIGURADO PARA BX1 VFX -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+// ===== CONFIGURACIÓN SUPABASE =====
+// DATOS DE BX1 VFX - CONFIGURADOS
+const SUPABASE_URL = 'https://vblqhgfcupeoeymgbxrv.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_bWp5XCGeO2HHByfoDCEfCg_hGrXMQxc';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ===== VARIABLES GLOBALES =====
+let selectedImages = [];
+let portadas = [];
+let currentUser = null;
+
+// ===== FUNCIONES DE AUTENTICACIÓN =====
+
+// Verificar autenticación al cargar
+async function checkAuth() {
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    
+    if (error || !user) {
+      showLogin();
+      return false;
+    }
+    
+    // Verificar si es admin
+    const { data: adminData } = await supabase
+      .from('admins')
+      .select('*')
+      .eq('user_id', user.id)
+      .single();
+    
+    if (!adminData) {
+      showLogin();
+      return false;
+    }
+    
+    // Autenticación exitosa
+    currentUser = user;
+    showAdminPanel();
+    await cargarPortadas();
+    return true;
+    
+  } catch (error) {
+    console.error('Error verificando auth:', error);
+    showLogin();
+    return false;
+  }
+}
+
+// Mostrar pantalla de login
+function showLogin() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPassword').value = '';
+}
+
+// Mostrar panel admin
+function showAdminPanel() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  document.getElementById('userEmail').textContent = currentUser.email;
+  document.getElementById('configEmail').textContent = currentUser.email;
+  actualizarEstadisticas();
+}
+
+// Login
+async function login() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  
+  if (!email || !password) {
+    document.getElementById('errorMessage').textContent = 'Por favor, completa todos los campos';
+    document.getElementById('loginError').style.display = 'block';
+    return;
+  }
+  
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+    
+    if (error) {
+      document.getElementById('errorMessage').textContent = error.message;
+      document.getElementById('loginError').style.display = 'block';
+      return;
+    }
+    
+    // Verificar si es admin
+    const { data: adminData } = await supabase
+      .from('admins')
+      .select('*')
+      .eq('user_id', data.user.id)
+      .single();
+    
+    if (!adminData) {
+      // No es admin, cerrar sesión
+      await supabase.auth.signOut();
+      document.getElementById('errorMessage').textContent = 'No tienes permisos de administrador';
+      document.getElementById('loginError').style.display = 'block';
+      return;
+    }
+    
+    // Éxito
+    currentUser = data.user;
+    showAdminPanel();
+    await cargarPortadas();
+    
+  } catch (error) {
+    console.error('Error en login:', error);
+    document.getElementById('errorMessage').textContent = 'Error del servidor';
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+// Logout
+async function logout() {
+  await supabase.auth.signOut();
+  showLogin();
+}
+
+// ===== FUNCIONES DEL PANEL =====
+
+// Mostrar sección
+function showSection(sectionId) {
+  // Ocultar todas las secciones
+  document.querySelectorAll('.admin-section').forEach(section => {
+    section.style.display = 'none';
+  });
+  
+  // Mostrar la sección seleccionada
+  document.getElementById(`${sectionId}-section`).style.display = 'block';
+  
+  // Actualizar menú activo
+  document.querySelectorAll('.sidebar-menu a').forEach(link => {
+    link.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  // Si es la sección de gestión, cargar portadas
+  if (sectionId === 'gestionar') {
+    actualizarListaPortadas();
+  }
+}
+
+// Actualizar estadísticas
+function actualizarEstadisticas() {
+  document.getElementById('totalPortadas').textContent = portadas.length;
+}
+
+// Manejar archivos subidos
+function handleFiles(event) {
+  const files = event.target.files;
+  selectedImages = Array.from(files);
+  
+  // Mostrar info
+  document.getElementById('fileInfo').style.display = 'block';
+  document.getElementById('fileCount').textContent = `${selectedImages.length} archivo(s) seleccionado(s)`;
+  
+  // Mostrar vista previa
+  const previewContainer = document.getElementById('previewImages');
+  previewContainer.innerHTML = '';
+  
+  selectedImages.forEach((file, index) => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imgContainer = document.createElement('div');
+      imgContainer.className = 'image-preview';
+      imgContainer.innerHTML = `
+        <img src="${e.target.result}" alt="Preview ${index + 1}">
+        <button class="remove-image" onclick="removeImage(${index})">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      previewContainer.appendChild(imgContainer);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// Eliminar imagen de la vista previa
+function removeImage(index) {
+  selectedImages.splice(index, 1);
+  document.getElementById('fileCount').textContent = `${selectedImages.length} archivo(s) seleccionado(s)`;
+  
+  // Actualizar vista previa
+  const previewContainer = document.getElementById('previewImages');
+  previewContainer.innerHTML = '';
+  
+  selectedImages.forEach((file, newIndex) => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imgContainer = document.createElement('div');
+      imgContainer.className = 'image-preview';
+      imgContainer.innerHTML = `
+        <img src="${e.target.result}" alt="Preview ${newIndex + 1}">
+        <button class="remove-image" onclick="removeImage(${newIndex})">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      previewContainer.appendChild(imgContainer);
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  if (selectedImages.length === 0) {
+    document.getElementById('fileInfo').style.display = 'none';
+  }
+}
+
+// Alternar campo de contratapa
+function toggleBackCover() {
+  const backCoverGroup = document.getElementById('backCoverNameGroup');
+  backCoverGroup.style.display = document.getElementById('hasBackCover').checked ? 'block' : 'none';
+}
+
+// Subir imagen al storage
+async function uploadImageToStorage(file) {
+  try {
+    const fileName = `portadas/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+    
+    const { data, error } = await supabase
+      .storage
+      .from('bx1_images')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+    
+    if (error) throw error;
+    
+    // Obtener URL pública
+    const { data: urlData } = supabase
+      .storage
+      .from('bx1_images')
+      .getPublicUrl(fileName);
+    
+    return urlData.publicUrl;
+    
+  } catch (error) {
+    console.error('Error subiendo imagen:', error);
+    throw error;
+  }
+}
+
+// Guardar portada
+async function guardarPortada() {
+  // Validar campos
+  const projectName = document.getElementById('projectName').value.trim();
+  const description = document.getElementById('projectDescription').value.trim();
+  
+  if (!projectName || !description) {
+    mostrarAlerta('Por favor, completa todos los campos obligatorios', 'error');
+    return;
+  }
+  
+  if (selectedImages.length === 0) {
+    mostrarAlerta('Por favor, selecciona al menos una imagen', 'error');
+    return;
+  }
+  
+  const hasBackCover = document.getElementById('hasBackCover').checked;
+  if (hasBackCover && selectedImages.length < 2) {
+    mostrarAlerta('Para portada con contratapa necesitas 2 imágenes', 'error');
+    return;
+  }
+  
+  try {
+    mostrarAlerta('Subiendo imágenes...', 'success');
+    
+    // Subir imágenes al storage
+    const imageUrls = [];
+    for (const file of selectedImages) {
+      const url = await uploadImageToStorage(file);
+      imageUrls.push(url);
+    }
+    
+    // Crear objeto de portada
+    const portadaData = {
+      nombre: projectName,
+      categoria: document.getElementById('projectCategory').value,
+      descripcion: description,
+      etiquetas: document.getElementById('projectTags').value
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag),
+      tiene_contratapa: hasBackCover,
+      nombre_contratapa: document.getElementById('backCoverName').value.trim() || '',
+      imagen_url: imageUrls[0],
+      imagen_contratapa_url: hasBackCover ? imageUrls[1] : null,
+      user_id: currentUser.id
+    };
+    
+    // Guardar en Supabase
+    const { data, error } = await supabase
+      .from('portadas')
+      .insert([portadaData])
+      .select();
+    
+    if (error) throw error;
+    
+    // Éxito
+    mostrarAlerta('¡Portada guardada exitosamente!', 'success');
+    
+    // Limpiar formulario
+    limpiarFormulario();
+    
+    // Recargar lista
+    await cargarPortadas();
+    
+  } catch (error) {
+    console.error('Error guardando portada:', error);
+    mostrarAlerta('Error al guardar la portada: ' + error.message, 'error');
+  }
+}
+
+// Mostrar alerta
+function mostrarAlerta(mensaje, tipo) {
+  // Remover alerta anterior
+  const alertaAnterior = document.querySelector('.alert');
+  if (alertaAnterior) alertaAnterior.remove();
+  
+  // Crear nueva alerta
+  const alerta = document.createElement('div');
+  alerta.className = `alert alert-${tipo}`;
+  alerta.innerHTML = `
+    <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+    ${mensaje}
+  `;
+  
+  // Insertar después del título de la sección
+  const sectionTitle = document.querySelector('.section-title');
+  if (sectionTitle) {
+    sectionTitle.parentNode.insertBefore(alerta, sectionTitle.nextSibling);
+  } else {
+    document.querySelector('.admin-main').insertBefore(alerta, document.querySelector('.admin-main').firstChild);
+  }
+  
+  // Auto-eliminar después de 5 segundos
+  setTimeout(() => {
+    if (alerta.parentNode) {
+      alerta.remove();
+    }
+  }, 5000);
+}
+
+// Limpiar formulario
+function limpiarFormulario() {
+  document.getElementById('projectName').value = '';
+  document.getElementById('projectDescription').value = '';
+  document.getElementById('projectTags').value = '';
+  document.getElementById('hasBackCover').checked = false;
+  document.getElementById('backCoverName').value = '';
+  document.getElementById('backCoverNameGroup').style.display = 'none';
+  document.getElementById('fileInfo').style.display = 'none';
+  document.getElementById('previewImages').innerHTML = '';
+  document.getElementById('fileInput').value = '';
+  selectedImages = [];
+}
+
+// Cargar portadas desde Supabase
+async function cargarPortadas() {
+  try {
+    const { data, error } = await supabase
+      .from('portadas')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    
+    portadas = data || [];
+    actualizarEstadisticas();
+    actualizarListaPortadas();
+    
+  } catch (error) {
+    console.error('Error cargando portadas:', error);
+    mostrarAlerta('Error al cargar las portadas', 'error');
+  }
+}
+
+// Actualizar lista de portadas
+function actualizarListaPortadas() {
+  const container = document.getElementById('portfolioList');
+  
+  if (!portadas || portadas.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+        <i class="fas fa-images" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.3;"></i>
+        <h3 style="margin-bottom: 10px;">No hay portadas aún</h3>
+        <p>Comienza subiendo tu primera portada.</p>
+        <button class="btn btn-primary" style="margin-top: 20px;" onclick="showSection('subir')">
+          <i class="fas fa-plus"></i> Subir Primera Portada
+        </button>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = '';
+  
+  portadas.forEach(portada => {
+    const categoriaNombre = getCategoryName(portada.categoria);
+    
+    html += `
+      <div class="portfolio-item">
+        <div class="portfolio-image">
+          <img src="${portada.imagen_url}" alt="${portada.nombre}">
+        </div>
+        <div class="portfolio-content">
+          <h4>${portada.nombre}</h4>
+          <p>${portada.descripcion?.substring(0, 100) || 'Sin descripción'}${portada.descripcion?.length > 100 ? '...' : ''}</p>
+          <div class="portfolio-tags">
+            <span class="tag">${categoriaNombre}</span>
+            ${portada.tiene_contratapa ? '<span class="tag">Con Contratapa</span>' : ''}
+            ${(portada.etiquetas || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+          </div>
+          <div class="portfolio-actions">
+            <button class="action-btn delete" onclick="eliminarPortada('${portada.id}')">
+              <i class="fas fa-trash"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+}
+
+// Obtener nombre legible de categoría
+function getCategoryName(category) {
+  const categories = {
+    'album': 'Álbum',
+    'single': 'Single',
+    'ep': 'EP',
+    'banner': 'Banner',
+    'diseño': 'Diseño Personalizado'
+  };
+  return categories[category] || category;
+}
+
+// Eliminar portada
+async function eliminarPortada(id) {
+  if (!confirm('¿Estás seguro de que quieres eliminar esta portada?')) return;
+  
+  try {
+    // Obtener portada para eliminar imágenes del storage
+    const { data: portada, error: fetchError } = await supabase
+      .from('portadas')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (fetchError) throw fetchError;
+    
+    // Eliminar portada de la base de datos
+    const { error } = await supabase
+      .from('portadas')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+    
+    // Mostrar éxito
+    mostrarAlerta('Portada eliminada exitosamente', 'success');
+    
+    // Recargar lista
+    await cargarPortadas();
+    
+  } catch (error) {
+    console.error('Error eliminando portada:', error);
+    mostrarAlerta('Error al eliminar la portada', 'error');
+  }
+}
+
+// Confirmar limpiar todo
+function confirmarLimpiarTodo() {
+  if (!confirm('⚠️ ¿ESTÁS ABSOLUTAMENTE SEGURO?\n\nEsto eliminará TODAS las portadas de la base de datos.\nEsta acción NO se puede deshacer.')) return;
+  
+  if (!confirm('⛔️ ÚLTIMA CONFIRMACIÓN\n\nEscribe "ELIMINAR" para confirmar:')) return;
+  
+  const confirmacion = prompt('Escribe ELIMINAR para confirmar:');
+  if (confirmacion?.toUpperCase() !== 'ELIMINAR') {
+    alert('Cancelado');
+    return;
+  }
+  
+  limpiarTodo();
+}
+
+// Limpiar todo (eliminar todas las portadas)
+async function limpiarTodo() {
+  try {
+    // Eliminar todas las portadas
+    const { error } = await supabase
+      .from('portadas')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000'); // Eliminar todas
+    
+    if (error) throw error;
+    
+    mostrarAlerta('Todas las portadas han sido eliminadas', 'success');
+    await cargarPortadas();
+    
+  } catch (error) {
+    console.error('Error limpiando todo:', error);
+    mostrarAlerta('Error al eliminar las portadas', 'error');
+  }
+}
+
+// ===== INICIALIZACIÓN =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Configurar drag & drop
+  const uploadArea = document.getElementById('uploadArea');
+  
+  if (uploadArea) {
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.style.borderColor = 'var(--primary-color)';
+      uploadArea.style.background = 'rgba(59, 130, 246, 0.05)';
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.style.borderColor = '';
+      uploadArea.style.background = '';
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.style.borderColor = '';
+      uploadArea.style.background = '';
+      
+      const files = e.dataTransfer.files;
+      const fileInput = document.getElementById('fileInput');
+      
+      // Crear un DataTransfer para asignar los archivos al input
+      const dataTransfer = new DataTransfer();
+      for (let file of files) {
+        if (file.type.startsWith('image/')) {
+          dataTransfer.items.add(file);
+        }
+      }
+      fileInput.files = dataTransfer.files;
+      
+      // Disparar el evento change
+      const event = new Event('change', { bubbles: true });
+      fileInput.dispatchEvent(event);
+    });
+  }
+  
+  // Verificar autenticación
+  checkAuth();
+  
+  // Suscribirse a cambios en tiempo real
+  supabase
+    .channel('portadas-changes')
+    .on('postgres_changes', { 
+      event: '*', 
+      schema: 'public', 
+      table: 'portadas' 
+    }, () => {
+      cargarPortadas();
+    })
+    .subscribe();
+});
+</script>
+</body>
+</html>
